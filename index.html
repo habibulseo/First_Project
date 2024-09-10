@@ -1,18 +1,212 @@
-<h1>hello world</h1>
-<h1>hello world</h1>
-<h1>hello world</h1>
-<h1>hello world</h1>
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en"></html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <title>Slider Menu Like Youtube</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap");
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f1f1f1;
+}
+.stack-tab-container {
+  position: relative;
+  margin-top: 5rem;
+}
+.stack-tab-container .tab-bar {
+  background: #fff;
+  overflow: hidden;
+  padding-right: 25px;
+}
+.stack-tab-container .left-arrow,
+.stack-tab-container .right-arrow {
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  top: 0;
+  display: none;
+  align-items: center;
+  padding: 0 10px;
+  pointer-events: none;
+}
+.stack-tab-container .right-arrow {
+  right: 0;
+  justify-content: flex-end;
+  background: linear-gradient(to left, #fff 20%, transparent);
+}
+.stack-tab-container .left-arrow {
+  background: linear-gradient(to right, #fff 20%, transparent);
+}
+.stack-tab-container .right-arrow.active,
+.stack-tab-container .left-arrow.active {
+  display: flex;
+}
+.stack-tab-container i {
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.stack-tab-container ul.tabs {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding-top: 16px;
+  padding-bottom: 12px;
+  list-style: none;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+.stack-tab-container ul.dragging {
+  scroll-behavior: auto;
+  cursor: pointer;
+}
+.stack-tab-container ul::-webkit-scrollbar {
+  display: none;
+}
+.stack-tab-container a.tab {
+  display: inline-block;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 32px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background-color: #e4e4e4;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  user-select: none;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.stack-tab-container a.tab.active {
+  border: 1px solid #007bff;
+  color: #007bff;
+  background: #fff;
+}
+
+  </style>
 </head>
+
 <body>
-    
+  <div clas="table-container" style="width: 800px; margin: 0 auto; margin-top: 5%; margin-bottom: 5%">
+    <h1>Slider Menu Like Youtube</h1>
+    <div class="stack-tab-container">
+      <div class="tab-bar">
+        <div class="left-arrow">
+          <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <ul class="tabs">
+          <li><a class="tab active" href="#">Home</a></li>
+          <li><a class="tab" href="#">Trending</a></li>
+          <li><a class="tab" href="#">Subscriptions</a></li>
+          <li><a class="tab" href="#">Library</a></li>
+          <li><a class="tab" href="#">Videos</a></li>
+          <li><a class="tab" href="#">Playlist</a></li>
+          <li><a class="tab" href="#">Shorts</a></li>
+          <li><a class="tab" href="#">Stories</a></li>
+          <li><a class="tab" href="#">Latest</a></li>
+          <li><a class="tab" href="#">Uploads</a></li>
+          <li><a class="tab" href="#">History</a></li>
+        </ul>
+        <div class="right-arrow active">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll(".stack-tab-container a.tab");
+const scrollRightArrow = document.querySelector(
+  ".stack-tab-container .right-arrow"
+);
+const scrollLeftArrow = document.querySelector(
+  ".stack-tab-container .left-arrow"
+);
+const tabList = document.querySelector(".stack-tab-container ul.tabs");
+const leftArrowContainer = document.querySelector(
+  ".stack-tab-container .left-arrow"
+);
+const rightArrowContainer = document.querySelector(
+  ".stack-tab-container .right-arrow"
+);
+
+// Function to remove "active" class from all tabs
+const removeActiveClasses = () => {
+  tabs.forEach((tab) => {
+    tab.classList.remove("active");
+  });
+};
+
+//Function to activate the left scroll button
+const manageLeftbtn = () => {
+  if (tabList.scrollLeft >= 20) {
+    leftArrowContainer.classList.add("active");
+  } else {
+    leftArrowContainer.classList.remove("active");
+  }
+
+  let maxScroll = tabList.scrollWidth - tabList.clientWidth - 20;
+  if (tabList.scrollLeft >= maxScroll) {
+    rightArrowContainer.classList.remove("active");
+  } else {
+    rightArrowContainer.classList.add("active");
+  }
+};
+
+// Add "active" class to clicked tab and remove from others
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    event.preventDefault();
+    removeActiveClasses();
+    tab.classList.add("active");
+  });
+});
+
+// Scroll the tab list to the right
+scrollRightArrow.addEventListener("click", () => {
+  tabList.scrollLeft += 300;
+  manageLeftbtn();
+});
+
+// Scroll the tab list to the left
+scrollLeftArrow.addEventListener("click", () => {
+  tabList.scrollLeft -= 300;
+  manageLeftbtn();
+});
+
+// Listen to scroll event to activate the buttons
+tabList.addEventListener("scroll", manageLeftbtn);
+
+// Adding the dragging functionality
+let drag = false;
+const dragging = (e) => {
+  // Add the event parameter
+  if (!drag) return;
+  tabList.classList.add("dragging");
+  tabList.scrollLeft -= e.movementX;
+};
+
+tabList.addEventListener("mousedown", () => {
+  drag = true;
+  tabList.addEventListener("mousemove", dragging); // Add mousemove listener here
+});
+
+document.addEventListener("mouseup", () => {
+  drag = false;
+  tabList.removeEventListener("mousemove", dragging); // Remove mousemove listener here
+  tabList.classList.remove("dragging");
+});
+
+    </script>
 </body>
 </html>
-
-
-habibur
